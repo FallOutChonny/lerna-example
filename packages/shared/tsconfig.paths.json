@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "shared/*": ["shared/*"],
+      "shared/components/*": ["shared/components/*"],
+      "shared/graphql/*": ["shared/graphql/*"],
+      "shared/constants/*": ["shared/constants/*"]
+    }
+  }
+}
