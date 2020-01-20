@@ -1,5 +1,5 @@
 import { css } from "styled-components";
-import { normalize, rgb } from "polished";
+import { normalize } from "polished";
 import { keys, map, compose } from "ramda";
 import { MARGINS, DIRECTS } from "./constants/margins";
 
@@ -141,12 +141,6 @@ const utils = css`
 
   .opacity--half {
     opacity: 0.5;
-  }
-
-  &.is--scrollbar-none {
-    ::-webkit-scrollbar {
-      display: none;
-    }
   }
 
   .cursor--pointer {
