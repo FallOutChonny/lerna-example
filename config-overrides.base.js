@@ -40,17 +40,11 @@ module.exports.configOverrides = function() {
         '@babel/plugin-proposal-optional-chaining',
       ),
       process.env.BUNDLE_VISUALIZE === '1' && addBundleVisualizer(),
-      //   babelInclude([
-      //     fs.realpathSync(isEnvMobile ? '../shared' : 'shared'),
-      //     fs.realpathSync('src'),
-      //   ]),
-      //   removeModuleScopePlugin(),
-      //   addWebpackAlias({
-      //     '@ant-design/icons/lib/dist$': resolveApp('icons.ts'),
-      //     shared: resolveApp('shared'),
-      //     src: resolveApp(isEnvMobile ? app + '/src' : 'src'),
-      //     moment: 'dayjs',
-      //   }),
+      removeModuleScopePlugin(),
+      babelInclude([fs.realpathSync('../shared'), fs.realpathSync('src')]),
+      addWebpackAlias({
+        moment: 'dayjs',
+      }),
     ),
   }
 }

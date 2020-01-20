@@ -1,6 +1,7 @@
 {
-  "name": "desktop-app",
+  "name": "@app/desktop-app",
   "version": "0.1.0",
+  "main": "src/index.js",
   "private": true,
   "scripts": {
     "start": "react-app-rewired start",

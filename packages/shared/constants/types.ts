@@ -23,24 +23,6 @@ import { SpinProps } from 'antd/lib/spin'
 import { ValidationRule } from 'antd/lib/form'
 import { GetFieldDecoratorOptions } from 'antd/lib/form/Form'
 import { PickerPropsType } from 'antd-mobile/lib/picker/PropsType'
-import { PickingDetail } from '../graphql/picking'
-
-export type EnumType = {
-  pid: number
-  parametertext: string
-  parametervalue: string | number
-  parameterengtext?: string
-}
-
-export type WorkItem = {
-  name: string
-  unit: string
-  price: number
-  amount: number
-  totalPrice: number
-  remark: string
-  disabled?: boolean
-}
 
 export type MutationFunction = (
   options?: MutationFunctionOptions<any, Record<string, any>> | undefined,
@@ -108,45 +90,10 @@ export type DataSource<T> = {
   totalPages: number
 }
 
-export type ListQueryResult<T> = {
-  response: {
-    data: {
-      content: T[]
-      pageNum: number
-      pageSize: number
-      totalPages: number
-      totalSize: number
-    }
-    code: number
-    msg?: string
-  }
-}
-
-export type QueryResult<T = any> = {
-  response: {
-    data: T[]
-    code: number
-    message: string
-    totalPages: number
-  }
-}
-
 export type LazyQueryResult<TResult> = [
   (options?: QueryLazyOptions<QueryVariables> | undefined) => void,
   LazyQueryHooksResult<TResult, QueryVariables> & { [key: string]: any },
 ]
-
-export type ListEnumsResult<T> = {
-  response: {
-    data: T[]
-    code: number
-    msg?: string
-  }
-}
-
-export type GetOrderResult<T> = {
-  orderDetail: T[]
-}
 
 export type ModalProps = {
   visible?: boolean
@@ -383,8 +330,6 @@ export enum OverlayType {
   RECTANGLE = 'rectangle',
 }
 
-export type OrderDetail = { [key: string]: any } & PickingDetail
-
 export type GetFieldDecorator = (
   id: string,
   options?: GetFieldDecoratorOptions,
@@ -397,52 +342,4 @@ export type PickerProps = Partial<PickerPropsType> & {
   initialValue?: any
   children?: React.ReactNode
   render?: (values: any[]) => any
-}
-
-export const iconBuilding = { icon: 'building', name: '地標' }
-
-export function getDeviceType(item: any) {
-  // brightness: 255
-  // controllerId: "LC02_OR000000019097A09416"
-  // deviceId: "0910281"
-  // deviceStatus: 100
-  // deviceType: 1
-  // lat: 24.9255562
-  // lightNo: "0910281"
-  // lightStyle: 1
-  // lon: 121.2812456
-
-  if (!item) {
-    return iconBuilding
-  }
-
-  if (item.isSwitchBox) {
-    return { icon: 'box', name: '開關箱' }
-  }
-
-  // 傳統/智慧-->  controllerId 有沒有值
-  if (!!item.controllerId) {
-    // 維修中 --> deviceStatus=-1 代表是否異常, 可以暫時取，未來應該是要用 養護的維修案件來對應
-    if (item.deviceStatus === -1) {
-      return { icon: 'light-led-wrong', name: '路燈' }
-    }
-
-    // 光度值-->brightness
-    if (item.brightness > 255 * 0.76) {
-      return { icon: 'light-led-full', name: '路燈' }
-    } else if (item.brightness > 255 * 0.51) {
-      return { icon: 'light-led-3', name: '路燈' }
-    } else if (item.brightness > 255 * 0.26) {
-      return { icon: 'light-led-2', name: '路燈' }
-    } else if (item.brightness > 255 * 0.01) {
-      return { icon: 'light-led-1', name: '路燈' }
-    } else {
-      return { icon: 'light-led-off', name: '路燈' }
-    }
-  }
-
-  // todo
-  // 警報---> 需要從警報另外 蓋上去
-
-  return { icon: 'light', name: '路燈' }
 }

@@ -4,6 +4,16 @@
   "workspaces": [
     "packages/*"
   ],
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Chonny <mama.whowho@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build:desktop": "lerna run --scope @app/desktop-app build",
+    "build:mobile": "lerna run --scope @app/mobile-app build",
+    "start:desktop": "lerna run --scope @app/desktop-app start",
+    "start:mobile": "lerna run --scope @app/mobile-app start"
+  },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.3",
     "antd": "^3.26.7",

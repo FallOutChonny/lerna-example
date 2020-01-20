@@ -5,7 +5,6 @@ interface Window {
   Android: any
   webkit: any
   onQRCodeResult(code: string): any
-  onReceiveFcmToken(token: string): any
 }
 
 declare namespace React {

@@ -11,9 +11,6 @@ class EnvStore {
   get appBaseName(): string {
     return process.env.REACT_APP_BASE_NAME || ''
   }
-  get ssoApiBaseUrl(): string {
-    return process.env.REACT_APP_SSO_API_ROOT || 'http://sctsso-api.ddns.net'
-  }
   get fakeApiBaseUrl(): string {
     return (
       process.env.REACT_APP_FAKE_API_ROOT ||
@@ -74,7 +71,6 @@ export const envStore = new EnvStore()
 
 export const isEnvDev: boolean = envStore.isEnvDev
 export const apiBaseUrl: string = envStore.apiBaseUrl
-export const ssoApiBaseUrl: string = envStore.ssoApiBaseUrl
 export const appBaseName = envStore.appBaseName
 export const appUrl: string = envStore.appUrl
 export const canUseDOM: boolean = envStore.canUseDOM

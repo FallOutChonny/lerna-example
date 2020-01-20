@@ -5,16 +5,12 @@ import { setContext } from 'apollo-link-context'
 import { RestLink } from 'apollo-link-rest'
 import { RetryLink } from 'apollo-link-retry'
 import logger from 'apollo-link-logger'
-import { message as antMessage } from 'antd'
 import Cookies from 'js-cookie'
 import {
-  path as Rpath,
   pathOr,
   ifElse,
   toLower,
   compose,
-  isNil,
-  not,
 } from 'ramda'
 import {
   InMemoryCache,
