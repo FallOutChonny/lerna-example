@@ -1,6 +1,6 @@
 class EnvStore {
-  pageSize = 50
-  apiBaseUrl = process.env.REACT_APP_API_ROOT || 'http://59.120.53.132:8018'
+  pageSize = 10
+  apiBaseUrl = process.env.REACT_APP_API_ROOT || 'http://localhost:3000'
 
   get appUrlScheme(): string {
     return process.env.REACT_APP_URL_SCHEME || 'app://'
@@ -12,33 +12,13 @@ class EnvStore {
     return process.env.REACT_APP_BASE_NAME || ''
   }
   get fakeApiBaseUrl(): string {
-    return (
-      process.env.REACT_APP_FAKE_API_ROOT ||
-      (this.isEnvDev ? 'http://localhost:3004' : 'http://59.120.53.132:3004')
-    )
-  }
-  get googleMapsApiKey(): string {
-    return (
-      process.env.REACT_APP_GOOGLE_MAPS_KEY ||
-      (this.isEnvDev
-        ? 'AIzaSyD-ZETNFwBmkF7xcFu45OMUqttyVgNs2gc'
-        : 'AIzaSyD-ZETNFwBmkF7xcFu45OMUqttyVgNs2gc')
-    )
-  }
-  get googleReCAPTCHAKey(): string {
-    return (
-      process.env.REACT_APP_GOOGLE_RECAPTCHA_KEY ||
-      '6LfVncQUAAAAACx7g4lBiP4_k_N0J7ZApSYcbnd8'
-    )
+    return process.env.REACT_APP_FAKE_API_ROOT || 'http://localhost:3004'
   }
   get googleMapsGeocodingApiBaseUrl(): string {
     return 'https://maps.googleapis.com/maps/api/geocode'
   }
   get socketUrl(): string {
-    return (
-      process.env.REACT_APP_FAKE_API_ROOT ||
-      (this.isEnvDev ? 'http://localhost:4015' : 'http://59.120.53.132:4015')
-    )
+    return process.env.REACT_APP_FAKE_API_ROOT || 'http://localhost:4015'
   }
   get publicUrl(): string {
     return process.env.PUBLIC_URL || ''
@@ -53,14 +33,11 @@ class EnvStore {
       window.document.createElement
     )
   }
-  get imageUrlPrefix(): string {
-    return `${this.publicUrl}/images`
-  }
   get defaultPageSize(): number {
     return this.pageSize
   }
   set setPageSize(pageSize: number | undefined) {
-    this.pageSize = pageSize || 50
+    this.pageSize = pageSize || 10
   }
   set setApiBaseUrl(url: string) {
     this.apiBaseUrl = url
@@ -75,9 +52,6 @@ export const appBaseName = envStore.appBaseName
 export const appUrl: string = envStore.appUrl
 export const canUseDOM: boolean = envStore.canUseDOM
 export const publicUrl: string | undefined = envStore.publicUrl
-export const googleMapsApiKey = envStore.googleMapsApiKey
-export const imageUrlPrefix = envStore.imageUrlPrefix
-export const googleReCAPTCHAKey = envStore.googleReCAPTCHAKey
 export const googleMapsGeocodingApiBaseUrl =
   envStore.googleMapsGeocodingApiBaseUrl
 export const fakeApiBaseUrl = envStore.fakeApiBaseUrl

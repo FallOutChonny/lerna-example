@@ -27,7 +27,6 @@ export default function useModal<T, TDetail = T>({
   onToggle?: (item: T) => any
   itemDetail?: TDetail | any
 }) {
-  const [newModalVisible, setNewModalVisible] = React.useState(false)
   const [editModalVisible, setEditModalVisible] = React.useState(false)
   const [item, setItem] = ownState || React.useState<T | null>(null)
 
@@ -74,19 +73,25 @@ export default function useModal<T, TDetail = T>({
     handleModalToggle(evt)
   }
 
-  const handleNewModalVisible = () => {
-    setNewModalVisible(prev => !prev)
-    setItem(null)
-  }
-
-  return {
-    handleNewModalVisible,
-    handleEditModalVisible,
-    newModalVisible,
+  return [
     editModalVisible,
-    handleModalToggle,
-    setItem,
-    item,
-    itemDetail: modalItem,
-  }
+    handleEditModalVisible,
+    {
+      item,
+      handleModalToggle,
+      setItem,
+      itemDetail: modalItem,
+    },
+  ] as [
+    boolean,
+    (evt?: React.MouseEvent<HTMLElement, MouseEvent> | undefined) => void,
+    {
+      item: T | null
+      setItem: (value: React.SetStateAction<T | null>) => void
+      handleModalToggle: (
+        evt?: React.MouseEvent<HTMLElement, MouseEvent> | undefined,
+      ) => void
+      itemDetail: TDetail
+    },
+  ]
 }
