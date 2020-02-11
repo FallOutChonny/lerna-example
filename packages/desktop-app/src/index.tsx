@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import renderer from '@app/shared/utils/renderer'
+import renderer from 'shared/utils/renderer'
 
 const app = renderer(App)
 

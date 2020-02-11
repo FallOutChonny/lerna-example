@@ -1,6 +1,5 @@
 import Cookies from 'js-cookie'
 import { merge } from 'ramda'
-import { error } from '../utils/message'
 import { apiBaseUrl } from '../env'
 
 type RequestInit = {
@@ -13,12 +12,13 @@ type RequestInit = {
   mode?: RequestMode_
   referrer?: string
   window?: any
-  errorMsg?: boolean
+  onCompleted?(data: any): any
+  onError?(error: Error): any
 }
 
 export default (
   endpoint: string,
-  { body, headers, errorMsg = true, ...options }: RequestInit = {},
+  { body, headers, onCompleted, onError, ...options }: RequestInit = {},
 ) => {
   const fullUrl =
     endpoint.indexOf('http') === -1 ? apiBaseUrl + endpoint : endpoint
@@ -46,17 +46,21 @@ export default (
             return Promise.reject(json)
           }
 
+          if (onCompleted) {
+            onCompleted(json)
+          }
+
           return json
         })
       }
 
       return response.text()
     })
-    .catch((err: Error) => {
-      if (errorMsg) {
-        error(err)
+    .catch((error: Error) => {
+      if (onError) {
+        onError(error)
       }
 
-      return err
+      return error
     })
 }

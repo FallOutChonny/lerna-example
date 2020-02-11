@@ -1,5 +1,5 @@
 {
-  "name": "root",
+  "name": "monorepo-project",
   "private": true,
   "workspaces": [
     "packages/*"
@@ -9,6 +9,7 @@
   "author": "Chonny <mama.whowho@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "bootstrap": "lerna bootstrap",
     "build:desktop": "lerna run --scope @app/desktop-app build",
     "build:mobile": "lerna run --scope @app/mobile-app build",
     "start:desktop": "lerna run --scope @app/desktop-app start",

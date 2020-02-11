@@ -31,14 +31,10 @@ export function useQuery<TResult>(
     ...params
   }: QueryHookOptions<any> & QueryOptions = {},
 ) {
-  const {
-    data,
-    loading,
-    error,
-    refetch,
-    networkStatus,
-    ...others
-  } = useApolloQuery<TResult, QueryVariables>(query, {
+  const { loading, networkStatus, ...others } = useApolloQuery<
+    TResult,
+    QueryVariables
+  >(query, {
     notifyOnNetworkStatusChange,
     variables: {
       params: { ...params, pageNum, pageSize },
@@ -50,9 +46,6 @@ export function useQuery<TResult>(
 
   return {
     loading: isLoading(loading, networkStatus),
-    data,
-    error,
-    refetch,
     ...others,
   }
 }

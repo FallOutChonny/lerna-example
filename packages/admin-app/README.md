@@ -1,0 +1,1 @@
+You can put any other react framework here, e.g. CRA, next.js
