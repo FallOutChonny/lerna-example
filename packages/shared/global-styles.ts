@@ -1,7 +1,18 @@
-import { css } from "styled-components";
-import { normalize } from "polished";
-import { keys, map, compose } from "ramda";
-import { MARGINS, DIRECTS } from "./constants/margins";
+import { css } from 'styled-components'
+import { normalize } from 'polished'
+import { keys, map, compose } from 'ramda'
+import { MARGINS } from './constants/margins'
+
+export const DIRECTS = {
+  mt: 'margin-top',
+  mb: 'margin-bottom',
+  ml: 'margin-left',
+  mr: 'margin-right',
+  pt: 'padding-top',
+  pb: 'padding-bottom',
+  pl: 'padding-left',
+  pr: 'padding-right',
+}
 
 const utils = css`
   ${map(
@@ -13,36 +24,24 @@ const utils = css`
         .${d}-${m} {
           ${DIRECTS[d]}: ${m}px !important;
         }
-      `
+      `,
         ),
-        keys
+        keys,
       )(DIRECTS),
-    MARGINS
+    MARGINS,
   )};
 
   ${map(
     (w: number) => css`
-      .min-width--${w} {
-        min-width: ${w}px !important;
-      }
-
       .w${w} {
-        width: ${w === 100 ? "100%" : w + "px"} !important;
+        width: ${w}px !important;
       }
 
       .h${w} {
-        height: ${w === 100 ? "100%" : w + "px"} !important;
-      }
-
-      .top-${w} {
-        top: ${w}px;
-      }
-
-      .left-${w} {
-        left: ${w}px;
+        height: ${w}px !important;
       }
     `,
-    MARGINS
+    MARGINS,
   )}
 
   ${p =>
@@ -56,18 +55,18 @@ const utils = css`
           background: ${p.theme[x]} !important;
         }
       `,
-      keys(p.theme)
+      keys(p.theme),
     )};
 
   .text-danger {
     color: #f5222d;
   }
 
-  .text-largest {
+  .text--largest {
     font-size: 18px !important;
   }
 
-  .text-larger {
+  .text--larger {
     font-size: 16px !important;
   }
 
@@ -75,63 +74,51 @@ const utils = css`
     font-size: 14px !important;
   }
 
-  .text--smaller {
-    font-size: 13px;
-  }
-
-  .text-sm {
+  .text--sm {
     font-size: 12px !important;
   }
 
-  .text-xs {
+  .text--xs {
     font-size: 10px;
   }
 
-  .text-400 {
+  .text--400 {
     font-weight: 400 !important;
   }
 
-  .text-500 {
+  .text--500 {
     font-weight: 500 !important;
   }
 
-  .text-center {
+  .text--center {
     text-align: center;
   }
 
-  .text-left {
+  .text--left {
     text-align: left;
   }
 
-  .text-right {
+  .text--right {
     text-align: right;
   }
 
-  .text-underline {
+  .text--underline {
     text-decoration: underline;
   }
 
-  .text-white {
+  .text--white {
     color: #fff;
-  }
-
-  .bg-light {
-    background: #fffcf1;
-  }
-
-  .bg-white {
-    background: #fff;
   }
 
   .flex-1 {
     flex: 1;
   }
 
-  .pull-left {
+  .pull--left {
     float: left;
   }
 
-  .pull-right {
+  .pull--right {
     float: right;
   }
 
@@ -146,34 +133,34 @@ const utils = css`
   .cursor--pointer {
     cursor: pointer;
   }
-`;
+
+  .width--full {
+    width: 100%;
+  }
+`
 
 const layout = css`
-  .l-flex {
+  .d-flex {
     display: flex;
 
-    &--center {
+    &.is--center {
       display: flex;
       align-items: center;
     }
 
-    &.is--stretch {
+    &.align-items--stretch {
       align-items: stretch;
     }
 
-    &.is--center {
+    &.h--center {
       justify-content: center;
     }
 
-    &.is--space-between {
-      justify-content: space-between;
-    }
-
-    &.is--right {
+    &.is--end {
       justify-content: flex-end;
     }
 
-    &.is--middle {
+    &.v--center {
       align-items: center;
     }
 
@@ -189,10 +176,10 @@ const layout = css`
   .d-inline-block {
     display: inline-block;
   }
-`;
+`
 
 export default css`
   ${normalize};
   ${utils};
   ${layout};
-`;
+`

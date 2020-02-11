@@ -5,8 +5,7 @@ import {
   QueryResult as LazyQueryHooksResult,
 } from '@apollo/react-common'
 import { QueryLazyOptions } from '@apollo/react-hooks'
-import { ColumnProps } from 'antd/lib/table'
-import { ValidationRule } from 'antd/lib/form'
+import { ColumnType } from 'antd/lib/table'
 import { PickerPropsType } from 'antd-mobile/lib/picker/PropsType'
 
 export type MutationFunction = (
@@ -63,10 +62,10 @@ export type ApolloHooksQueryVariables = {
   onError?: (error: Error) => any
 }
 
-export interface ColumnPropsEditable<T> extends ColumnProps<T> {
+export interface ColumnPropsEditable<T> extends ColumnType<T> {
   editable?: boolean
   component?: React.ReactNode
-  rules?: ValidationRule[]
+  rules?: { required?: boolean; pattern?: RegExp; message?: string }[]
 }
 
 export type DataSource<T> = {
