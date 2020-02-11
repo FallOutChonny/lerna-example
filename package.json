@@ -83,5 +83,16 @@
     "react-snap": "^1.23.0",
     "typescript": "~3.7.2",
     "webpack-bundle-analyzer": "^3.6.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,ts,tsx,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
