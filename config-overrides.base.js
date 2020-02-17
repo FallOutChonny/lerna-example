@@ -19,6 +19,7 @@ module.exports.configOverrides = function() {
           'babel-plugin-import',
           {
             libraryName: 'antd',
+            libraryDirectory: 'es',
             style: 'css',
           },
           'antd',
@@ -27,6 +28,7 @@ module.exports.configOverrides = function() {
           'babel-plugin-import',
           {
             libraryName: 'antd-mobile',
+            libraryDirectory: 'es',
             style: 'css',
           },
           'antd-mobile',
