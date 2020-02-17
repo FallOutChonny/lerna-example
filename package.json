@@ -10,10 +10,10 @@
   "license": "MIT",
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build:desktop": "lerna run --scope @app/desktop-app build",
-    "build:mobile": "lerna run --scope @app/mobile-app build",
-    "start:desktop": "lerna run --scope @app/desktop-app start",
-    "start:mobile": "lerna run --scope @app/mobile-app start",
+    "build:desktop": "lerna run --scope desktop-app build",
+    "build:mobile": "lerna run --scope mobile-app build",
+    "start:desktop": "lerna run --scope desktop-app start",
+    "start:mobile": "lerna run --scope mobile-app start",
     "start:api": "json-server --delay 500 --watch db.js --port 3004"
   },
   "dependencies": {
