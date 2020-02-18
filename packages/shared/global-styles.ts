@@ -1,66 +1,80 @@
 import { css } from 'styled-components'
 import { normalize } from 'polished'
-import { keys, map, compose } from 'ramda'
-import { MARGINS } from './constants/margins'
+import { keys, map } from 'ramda'
 
-export const DIRECTS = {
-  mt: 'margin-top',
-  mb: 'margin-bottom',
-  ml: 'margin-left',
-  mr: 'margin-right',
-  pt: 'padding-top',
-  pb: 'padding-bottom',
-  pl: 'padding-left',
-  pr: 'padding-right',
-}
+const SPACES = [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  20,
+  21,
+  22,
+  24,
+  36,
+  48,
+  60,
+]
 
-const utils = css`
+const base = css`
   ${map(
-    m =>
-      compose(
-        map(
-          d =>
-            css`
-        .${d}-${m} {
-          ${DIRECTS[d]}: ${m}px !important;
-        }
-      `,
-        ),
-        keys,
-      )(DIRECTS),
-    MARGINS,
-  )};
-
-  ${map(
-    (w: number) => css`
-      .w${w} {
-        width: ${w}px !important;
+    s => css`
+      .mt-${s} {
+        margin-top: ${s}px !important;
       }
-
-      .h${w} {
-        height: ${w}px !important;
+      .mr-${s} {
+        margin-right: ${s}px !important;
+      }
+      .mb-${s} {
+        margin-bottom: ${s}px !important;
+      }
+      .ml-${s} {
+        margin-left: ${s}px !important;
+      }
+      .pt-${s} {
+        padding-top: ${s}px !important;
+      }
+      .pr-${s} {
+        padding-right: ${s}px !important;
+      }
+      .pb-${s} {
+        padding-bottom: ${s}px !important;
+      }
+      .pl-${s} {
+        padding-left: ${s}px !important;
       }
     `,
-    MARGINS,
-  )}
+    SPACES,
+  )};
 
   ${p =>
     map(
       (x: string | any) => css`
-        .text-${x} {
+        .text--${x} {
           color: ${p.theme[x]} !important;
         }
 
-        .bg-${x} {
+        .bg--${x} {
           background: ${p.theme[x]} !important;
         }
       `,
       keys(p.theme),
     )};
-
-  .text-danger {
-    color: #f5222d;
-  }
 
   .text--largest {
     font-size: 18px !important;
@@ -110,7 +124,7 @@ const utils = css`
     color: #fff;
   }
 
-  .flex-1 {
+  .flex--1 {
     flex: 1;
   }
 
@@ -140,7 +154,7 @@ const utils = css`
 `
 
 const layout = css`
-  .d-flex {
+  .d--flex {
     display: flex;
 
     &.is--center {
@@ -173,13 +187,16 @@ const layout = css`
     }
   }
 
-  .d-inline-block {
+  .d--inline-block {
     display: inline-block;
   }
 `
 
+const components = css``
+
 export default css`
   ${normalize};
-  ${utils};
+  ${base};
   ${layout};
+  ${components};
 `
