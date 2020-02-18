@@ -3,15 +3,8 @@ import { ApolloLink } from 'apollo-link'
 import { onError, ErrorResponse } from 'apollo-link-error'
 import { setContext } from 'apollo-link-context'
 import { RestLink } from 'apollo-link-rest'
-import { RetryLink } from 'apollo-link-retry'
 import logger from 'apollo-link-logger'
 import Cookies from 'js-cookie'
-import {
-  pathOr,
-  ifElse,
-  toLower,
-  compose,
-} from 'ramda'
 import {
   InMemoryCache,
   IntrospectionFragmentMatcher,
@@ -87,44 +80,12 @@ const createClient = () => {
   const authLink = setContext((_, { headers }) => {
     // get the authentication token from cookies if it exists
     // return the headers to the context so httpLink can read them
-    const authHeaders = compose(
-      ifElse(
-        (name: string) => name.includes('login'),
-        () => ({}),
-        ifElse(
-          () => env.appBaseName.includes('/sso'),
-          () => ({
-            Authorization: `Bearer ${Cookies.get('sso-token')}`,
-          }),
-          () => ({
-            authorization: Cookies.get('token'),
-            'X-Auth-Nonce': Cookies.get('x-auth-nonce'),
-            'X-Auth-Token': Cookies.get('x-auth-token'),
-          }),
-        ),
-      ),
-      toLower,
-      pathOr('', ['operationName']),
-    )(_)
-
     return {
       headers: {
         ...headers,
-        ...authHeaders,
+        authorization: Cookies.get('token'),
       },
     }
-  })
-
-  const retryLink = new RetryLink({
-    attempts: (count, operation, error) => {
-      console.log(operation)
-      console.log(error)
-      // return !!error && operation.operationName != 'specialCase';
-      return false
-    },
-    delay: (count, operation, error) => {
-      return count * 1000 * Math.random()
-    },
   })
 
   const errorLink = onError(
