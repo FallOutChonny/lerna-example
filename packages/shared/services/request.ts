@@ -1,6 +1,13 @@
+import React from 'react'
 import Cookies from 'js-cookie'
-import { merge } from 'ramda'
+import { merge, reduce, toPairs, keys, map, mergeAll } from 'ramda'
 import { apiBaseUrl } from '../env'
+import camelCase from '../utils/camelcase'
+const { compose } = require('ramda')
+
+type RequestHeader = {
+  [key: string]: string
+}
 
 type RequestInit = {
   body?: any
@@ -16,46 +23,82 @@ type RequestInit = {
   onError?(error: Error): any
 }
 
-export default (
+function useMeta() {
+  const [loading, setIsLoading] = React.useState(false)
+
+  const withMeta = (handler: any) => {
+    setIsLoading(true)
+
+    return handler().then((response: any) => {
+      setIsLoading(false)
+
+      return response
+    })
+  }
+
+  return [loading, withMeta] as [boolean, (handler: any) => any]
+}
+
+export function useRestApi<T = any>() {
+  const [loading, withMeta] = useMeta()
+
+  return [
+    loading,
+    (url: string, options: RequestInit) =>
+      withMeta(async () => await request(url, options)),
+  ] as [boolean, (url: string, options: RequestInit) => Promise<T>]
+}
+
+export default function request(
   endpoint: string,
   { body, headers, onCompleted, onError, ...options }: RequestInit = {},
-) => {
+) {
   const fullUrl =
     endpoint.indexOf('http') === -1 ? apiBaseUrl + endpoint : endpoint
 
   return fetch(fullUrl, {
     ...options,
     body: body instanceof FormData ? body : JSON.stringify(body),
-    headers: merge(
-      {
-        authorization: Cookies.get('token') as NonNullable<string>,
-        'X-Auth-Nonce': Cookies.get('x-auth-nonce'),
-        'X-Auth-Token': Cookies.get('x-auth-token'),
-      },
-      headers
-        ? { ...headers }
-        : { 'Content-Type': 'application/json', Accept: 'application/json' },
-    ) as Record<string, string>,
+    headers: compose(
+      reduce(
+        (
+          headers: RequestHeader,
+          [key, value]: [string, string | undefined],
+        ) => {
+          if (value) {
+            headers[key] = value
+          }
+          return headers
+        },
+        {},
+      ),
+      toPairs,
+      merge({
+        Authorization: `Bearer ${Cookies.get('iaef_token')}`,
+        'Content-Type': 'application/json',
+        accept: 'application/json',
+      }),
+    )(headers),
   })
-    .then((response: Response) => {
-      const contentType = response.headers.get('content-type')
+    .then((response: Response) =>
+      response.json().then(json => {
+        if (!response.ok) {
+          return Promise.reject(json)
+        }
 
-      if (contentType && contentType.indexOf('application/json') > -1) {
-        return response.json().then(json => {
-          if (!response.ok) {
-            return Promise.reject(json)
-          }
+        let data = compose(
+          mergeAll,
+          map((key: string) => ({ [camelCase(key)]: json[key] })),
+          keys,
+        )(json)
 
-          if (onCompleted) {
-            onCompleted(json)
-          }
+        if (onCompleted) {
+          onCompleted(data)
+        }
 
-          return json
-        })
-      }
-
-      return response.text()
-    })
+        return data
+      }),
+    )
     .catch((error: Error) => {
       if (onError) {
         onError(error)
